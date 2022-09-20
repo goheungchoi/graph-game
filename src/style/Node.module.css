@@ -1,0 +1,7 @@
+.node_color_unselected {
+  border-color: #8D866C;
+}
+
+.node_color_selected {
+  border-color: #C41002;
+}
