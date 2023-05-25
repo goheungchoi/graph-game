@@ -64,7 +64,7 @@ class WSApi {
 
   sendCommand(cmd, data, calcVal, isPost = false) {
     if (this.connected) {
-      data.command = cmd;
+      data.cmd = cmd;
       data.id = this.requestId;
 
       if (isPost) {
@@ -110,4 +110,6 @@ class WSApi {
   }
 }
 
-export default WSApi;
+var ws = new WSApi("localhost");
+
+export default ws;
