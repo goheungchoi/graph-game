@@ -6,7 +6,7 @@ class WSApi {
     const hostname =
       host != null
         ? host
-        : location.hostname + (location.port ? ":" + location.port : "");
+        : "localhost:8080";
     this.socket = new WebSocket("ws://" + hostname, "web_server");
     this.callbacks = {};
     this.requestId = 0;
@@ -67,22 +67,22 @@ class WSApi {
       data.cmd = cmd;
       data.id = this.requestId;
 
-      if (isPost) {
-        $.ajax({
-          type: "POST",
-          url: "/post/" + this.id,
-          data: JSON.stringify(data),
-          success: (res) => {
-            console.log(res);
-          },
-          error: (res) => {
-            console.log(res);
-          },
-          dataType: "json",
-        });
-      } else {
+      // if (isPost) {
+      //   $.ajax({
+      //     type: "POST",
+      //     url: "/post/" + this.id,
+      //     data: JSON.stringify(data),
+      //     success: (res) => {
+      //       console.log(res);
+      //     },
+      //     error: (res) => {
+      //       console.log(res);
+      //     },
+      //     dataType: "json",
+      //   });
+      // } else {
         this.socket.send(JSON.stringify(data));
-      }
+      //}
 
       let promise = new Promise((resolve, reject) => {
         this.callbacks[this.requestId] = (data) => {
