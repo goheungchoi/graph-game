@@ -20,7 +20,7 @@ public:
    * @param node 
    * @return int 
    */
-  int update(Node* node);
+  void update(Node* node);
 
   /**
    * @brief Helper function for userSelectNode

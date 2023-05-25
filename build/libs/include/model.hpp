@@ -1,17 +1,14 @@
 #ifndef _MODEL_HPP_
 #define _MODEL_HPP_
 
-#include "graph\game.hpp"
-#include "controller.hpp"
-
+#include "game.hpp"
 //--------------------  Model ----------------------------
 
 /// Simulation Model handling the game data structure.  
 /// The model can communicate with the controller.
 class GameModel {
 public:
-  GameModel(Controller& controller) :
-  controller(controller), game(Game(0)) {}
+  GameModel() : game(Game(0)) {}
 
   /// Creates a game
   void CreateGame(unsigned int level) {
@@ -38,7 +35,6 @@ public:
   }
 
 protected:
-  Controller& controller;
   Game game;
 };
 

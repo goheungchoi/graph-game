@@ -5,8 +5,10 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <thread>
 
 #include "controller.hpp"
+#include "model.hpp"
 #include "json_util.hpp"
 
 namespace beast = boost::beast;
@@ -56,8 +58,8 @@ void do_session(tcp::socket socket, Controller& controller) {
       // Use the controller to update the state of the game
       object returnValue;
       controller.ReceiveCommand(
-        value_to<string>(json_obj["cmd"]),
-        value_to<object>(json_obj["data"]),
+        json_obj["cmd"].as_string(),
+        json_obj["data"].as_object(),
         returnValue);
 
       // Use the controller to post the event corresponding to
@@ -93,25 +95,31 @@ void do_session(tcp::socket socket, Controller& controller) {
 }
 
 int main(int argc, char** argv) {
-  if (argc < 1) {
+  if (argc < 2) {
     std::cerr <<
       "usage: ./build/app <port>"
       << std::endl;
     return EXIT_FAILURE;
   }
+
+  std::cout << argv[0] << std::endl;
   try {
     // Get the host and port of the server
-    auto const host = net::ip::make_address("localhost");
+    auto const host = net::ip::make_address("127.0.0.1");
     auto const port = static_cast<unsigned short>(std::atoi(argv[1]));
 
     // The io_context is required for all I/O
-    net::io_context ioc;
+    net::io_context ioc{1};
 
     tcp::acceptor acceptor{ioc, {host, port}};
     while(1) {
       tcp::socket socket{ioc};
       acceptor.accept(socket);
-      std::thread{std::bind(&do_session, std::move(socket))}.detach();
+      GameModel model;
+      Controller cont(model);
+      std::thread([&socket, &cont]() {
+        do_session(std::move(socket), cont);
+      }).detach();
     }
   } catch(std::exception const& e) {
     std::cerr << "Error: " << e.what() << std::endl;

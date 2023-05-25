@@ -1,8 +1,6 @@
 #include "graph.hpp"
 #include "entity.hpp"
 
-Entity entity;
-
 Graph::Graph() {
   init_web();
 }

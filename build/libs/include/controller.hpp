@@ -9,24 +9,24 @@ using namespace boost::json;
 
 //--------------------  Controller ----------------------------
 
-class IController {
-  virtual ~IController() {}
+// class IController {
+//   virtual ~IController() {}
 
-  virtual void ReceiveCommand(
-    const std::string& cmd, 
-    object& data, 
-    object& returnValue
-  ) = 0;
+//   virtual void ReceiveCommand(
+//     const std::string& cmd, 
+//     object& data, 
+//     object& returnValue
+//   ) = 0;
 
-  virtual void SendMsgToView(
-    const std::string& event,
-    object& data
-  ) = 0;
-};
+//   virtual void SendMsgToView(
+//     const std::string& event,
+//     object& data
+//   ) = 0;
+// };
 
-class Controller : public IController {
+class Controller {
 public:
-  Controller();
+  Controller(GameModel& model) : model(model) {};
 
   void ReceiveCommand(
     const string& cmd, 

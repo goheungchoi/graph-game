@@ -65,6 +65,8 @@ int Game::play_turn(int layer, int index) {
 
   if (numOfSelectedNodes + numOfConsumedNodes >= graph.getNumOfNodes())
     state = _DONE;
+
+  return 1;
 }
 
 bool Game::is_done() {

@@ -36,7 +36,7 @@ int Player::action(Graph &g, int layer, int index) {
  * @param node 
  * @return int 
  */
-int Player::update(Node* node) {
+void Player::update(Node* node) {
   // Creates a path to the node
   createUserPath(node);
   // Select the node
