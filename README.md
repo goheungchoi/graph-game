@@ -44,7 +44,7 @@ The front-end uses Redux to maintain the state of the Graph object, preventing l
 
 **NOTE: The server can be run only on Linux Env**
 
-(Future updates will include a CMake builder)
+(Future updates will include a CMake builder for cross-platform development)
 
 **NOTE: Boost library must be installed on your local machine**
 
