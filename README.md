@@ -1,70 +1,95 @@
-# Getting Started with Create React App
+# Graph Game Web 
+
+**Creator**: Goheung Choi
+
+**Version**: *`0.8.0`*
+
+**Last Update**: *05/26/23*
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Overview
 
-In the project directory, you can run:
+Inspired by the Blood Web system in Dead By Daylight, one of the most popular games on Steam.
+The Blood Web is a unique shopping system of Dead By Daylight. A player purchases items and perks on the web, and after a certain amount of moves from the player, the Entity, the mighty and evil being that rules the DBD worldview, awakens and starts interfering player's moves.
 
-### `npm start`
+This game follows slightly different rules. It involves selecting nodes on a graph as many as you can. After the 10th level, the Entity emerges and starts consuming nodes after your 5th move. However, instead of maximizing the player's spending of Blood points, the Entity tries to consume as many points as possible, similar to standard zero-sum games.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This is a project designed just for the personal practice of building a program based on the MVC model. The project is not yet complete and will require further development. 
+Nevertheless, this project is well-structured enough to present the basic concepts of the MVC model and WebSocket connection between the server side and client side.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Here is the list of noticeable features of this project.
 
-### `npm test`
+### Key Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### 1. Server written in C++
+The whole server-side source files, including all the logic of the game and communication with the front-end, are implemented in C++ for efficient memory management and speed of the program.
 
-### `npm run build`
+#### 2. Use of Boost Library in C++
+This project utilizes low-level I/O, WebSocket, and JSON object constructors/parsers provided by the [Boost Libary](https://www.boost.org/).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### 3. Connection Threads
+Theoretically, the server can handle multiple connections from clients, as it launches a thread every time it receives a WebSocket connection request.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### 4. MVC Model
+The server adheres to the MVC(Model-View-Controller) design pattern. The controller object transmits commands and data between the model and view, ensuring low-coupling among objects and clarity of the structure of this program.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### 5. Use of React
+The front-end is built in React JS, enhancing the reusability of objects and code.
 
-### `npm run eject`
+#### 6. Use of Redux
+The front-end uses Redux to maintain the state of the Graph object, preventing loss of data when refreshing the page.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## How to Use
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**NOTE: The server can be run only on Linux Env**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+(Future updates will include a CMake builder)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**NOTE: Boost library must be installed on your local machine**
 
-## Learn More
+[Download Boost](https://www.boost.org/users/history/version_1_82_0.html)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. Clone this repo `git clone https://github.com/goheungchoi/graph-game.git` in your preferred directory.
+2. Open up two Linux Terminals: one for launching the server and the other for the browser UI.
+3. For the Server, run
+  ```
+  bash> make 
+  bash> ./bin/app 8080 
+  ```
+4. For the UI, run 
+  ```
+  bash> npm install
+  bash> npm start
+  ```
+5. Once you start selecting nodes, the server, and UI will print logs of connection.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### How to Download Boost on Linux
+Follow the walkthrough instructions on this [website](https://linux.how2shout.com/how-to-install-boost-c-on-ubuntu-20-04-or-22-04/).
+Change the version of the library to 1.82.0.
 
-### Code Splitting
+## Documentation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Further details about key algorithms and the program structure are still under development and will be added to the following sections:
 
-### Analyzing the Bundle Size
+### Consumption of Entity
+`TODO: fill this section`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### MVC Structure of Program
+`TODO: fill this section`
 
-### Making a Progressive Web App
+## Future Development Roadout
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+The following enhancements are planned for future updates
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Addition of a CMake builder
+- Bug Fix: Integration of UI and Redux.
+  - Currently, integrating the app and Redux is not completely done yet.
+- Development of the Random Node Generator in the Graph object in C++.
+- Bug Fix: Extra attempt to send the 'CreateGame' command from the front-end
+  - Currently, the UI sends the 'CreateGame' command twice when a level stage ends, demanding unnecessary resources from the server. 
+  - I left it unchanged as it didn't affect the logic of the game.
+- Development of the Entity Action Corresponding to Diverse Types and Rarity of Nodes
+- Improvement of UI
+  - More interactive and diverse functionality of the UI is required.
+- Addition of a Log-in System and Data Storage
