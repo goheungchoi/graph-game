@@ -1,5 +1,8 @@
 import React from "react";
 
+import Content from "../components/Content.js";
+import Node from "../components/Node.js"
+import Edge from "../components/Edge.js"
 import Graph from '../components/Graph.js'
 
 import ws from '../libs/WSApi.js';
@@ -17,6 +20,9 @@ class Home extends React.Component {
       consumedNodes: [], 
       entityPath: [],
     }
+
+    // Bind methods to the component instance
+    this.handleNodeClick = this.handleNodeClick.bind(this);
   }
 
   componentDidMount() {
@@ -24,7 +30,7 @@ class Home extends React.Component {
       cmd: 'CreateGame',
       data: 
       {
-        level: 1
+        level: 15
       },
     }
 
@@ -32,8 +38,13 @@ class Home extends React.Component {
     .then(response => {
       console.log(response);
       this.setState({
-        nodes: response.details.nodes,
-        edges: response.details.edges,
+        nodes: response.details.nodemap.map((node) => {
+          return new Node(node[0], node[1].pos, new Content(node[2][0], node[2][1]));
+        }),
+        edges: response.details.edgemap.map((edge) => {
+          return new Edge(edge[0][0], edge[1][0]);
+        }),
+        selectedNodes: [new Node("red", [0, 0], new Content())],
       });
     })
     .catch(error => {
@@ -46,19 +57,27 @@ class Home extends React.Component {
       cmd: 'GetPlayerMove',
       data: 
       {
-        layer: node.layer,
-        index: node.index
+        layer: JSON.parse(node.layer),
+        index: JSON.parse(node.index),
       },
     }
     ws.sendCommand(data.cmd, data)
     .then(response => {
-      console.log(response);
+      console.log(response.details);
       this.setState({
         isdone: response.details.isdone,
-        selectedNodes: response.details.playernodes, 
-        userPath: response.details.playeredges,
-        consumedNodes: [...this.state.consumedNodes, ...response.details.newnodes], 
-        entityPath: [...this.state.entityPath, ...response.details.newedges],
+        selectedNodes: response.details.playernodes.map((node) => {
+          return new Node(node[0], node[1].pos, new Content(node[2][0], node[2][1]));
+        }), 
+        userPath: response.details.playeredges.map((edge) => {
+          return new Edge(edge[0][0], edge[1][0]);
+        }),
+        consumedNodes: [...this.state.consumedNodes, ...response.details.newnodes.map((node) => {
+          return new Node(node[0], node[1].pos, new Content(node[2][0], node[2][1]));
+        })], 
+        entityPath: [...this.state.entityPath, ...response.details.newedges.map((edge) => {
+          return new Edge(edge[0][0], edge[1][0]);
+        })],
       });
     })
     .catch(error => {
@@ -76,6 +95,8 @@ class Home extends React.Component {
       userPath,
       consumedNodes, 
       entityPath, } = this.state;
+
+      console.log(this.state.nodes);
 
     return (
       <div>

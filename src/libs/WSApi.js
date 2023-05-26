@@ -3,58 +3,35 @@
  */
 class WSApi {
   constructor(host = null) {
-    const hostname =
-      host != null
-        ? host
-        : "localhost:8080";
-    this.socket = new WebSocket("ws://" + hostname, "web_server");
+    const hostname = host != null ? host : "127.0.0.1:8080";
+    this.socket = new WebSocket("ws://" + hostname);
     this.callbacks = {};
     this.requestId = 0;
-    this.id = null;
-
-    this.onmessage = null;
 
     this.socket.onmessage = (msg) => {
       let data = JSON.parse(msg.data);
 
-      if (typeof data == "number") {
-        this.id = +msg.data;
-        this.connected = true;
-        console.log(this.id);
-        return;
-      }
-
       if ("id" in data && data.id in this.callbacks) {
         this.callbacks[data.id](data);
-      }
-
-      if (this.onmessage) {
-        this.onmessage(msg, data);
-      } else {
-        console.log('onmessage() undefined\n');
       }
     };
 
     this.connect = new Promise((resolve, reject) => {
       this.socket.onopen = () => {
-        resolve(this.socket);
+        this.connected = true;
+        resolve();
       };
-
       this.socket.onerror = (err) => {
         console.log(err);
         reject(err);
       };
-
-      this.socket.onclose = (event) => {
-        console.log(event);
+      this.socket.onclose = () => {
+        this.connected = false;
+        console.log('WebSocket closed');
       };
     });
 
     this.connected = false;
-
-    this.connect.then(() => {
-      this.connected = true;
-    });
   }
 
   sendPostCommand(cmd, data, calcVal) {
@@ -110,6 +87,6 @@ class WSApi {
   }
 }
 
-var ws = new WSApi("localhost");
+var ws = new WSApi();
 
 export default ws;

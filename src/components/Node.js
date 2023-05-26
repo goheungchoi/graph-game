@@ -1,9 +1,10 @@
 import Content from './Content.js'
 
 class Node {
-  constructor(layer=-1, index=-1, cont=(new Content())) {
-    this.layer = layer;
-    this.index = index;
+  constructor(color, pos, cont=(new Content())) {
+    this.color = color;
+    this.layer = pos[0];
+    this.index = pos[1];
     this.cont = cont;
   }
 

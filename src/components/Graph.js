@@ -4,8 +4,6 @@ import Node from './Node.js'
 import Edge from './Edge.js'
 import Content from './Content.js'
 
-import node_svg from './svg/node.svg'
-
 import {drawCircle, drawLine} from './canvas_util.js'
 
 import style from '../style/Graph.module.css'
@@ -32,12 +30,12 @@ class Graph extends React.Component {
   initMaps() {
     for (let i=0; i<NUM_LAYERS; i++) {
       for (let j=0; j<NUM_NODES_PER_LAYER[i]; j++) {
-        const n = new Node(i, j, new Content());
+        const n = new Node("White", [i, j], new Content());
         this.nodemap.push(n);
       }
     }
 
-    console.log(this.nodemap);
+    //console.log(this.nodemap);
 
     for (let i=0; i<NUM_LAYERS; i++) {
       for (let j=0; j<NUM_NODES_PER_LAYER[i]; j++) {
@@ -76,7 +74,7 @@ class Graph extends React.Component {
       }
     }
 
-    console.log(this.edgemap);
+    //console.log(this.edgemap);
   }
 
   getCoorForPercent(percent, rad, offset=0) {
@@ -116,7 +114,8 @@ class Graph extends React.Component {
     const [x, y] = this.getNodeCoorOnCanvas(node.layer, node.index);
     const ctx = this.canvRef.current.getContext("2d");
 
-    drawCircle(ctx, [x, y], 25, "#262626", "#050505", 10);
+    drawCircle(ctx, [x, y], 25, "#adadad", "#050505", 10);
+    console.log([x, y]);
   })
 
   drawEdges = () => this.props.edges.forEach((edge) => {
@@ -124,7 +123,7 @@ class Graph extends React.Component {
     const [x2, y2] = this.getNodeCoorOnCanvas(edge.b[0], edge.b[1]);
 
     const ctx = this.canvRef.current.getContext("2d");
-    drawLine(ctx, [x1, y1], [x2, y2], "#050505", 10);
+    drawLine(ctx, [x1, y1], [x2, y2], "#adadad", 10);
   })
 
   drawSelectedNodes = () => this.props.selectedNodes.forEach((node) => {
@@ -146,7 +145,7 @@ class Graph extends React.Component {
     const [x, y] = this.getNodeCoorOnCanvas(node.layer, node.index);
     const ctx = this.canvRef.current.getContext("2d");
 
-    drawCircle(ctx, [x, y], 25, "#242424", "#050505", 10);
+    drawCircle(ctx, [x, y], 25, "#242424", "#242424", 10);
   })
 
   drawEntityPath = () => this.props.entityPath.forEach((edge) => {
@@ -154,7 +153,7 @@ class Graph extends React.Component {
     const [x2, y2] = this.getNodeCoorOnCanvas(edge.b[0], edge.b[1]);
 
     const ctx = this.canvRef.current.getContext("2d");
-    drawLine(ctx, [x1, y1], [x2, y2], "#5c0101", 10);
+    drawLine(ctx, [x1, y1], [x2, y2], "#242424", 10);
   })
 
   addHoverEventListenerOnCanvas = () => {
@@ -222,16 +221,19 @@ class Graph extends React.Component {
   componentDidUpdate(prevProp) {
 
     if (prevProp.nodes !== this.props.nodes) {
+      console.log(this.props.nodes);
       this.drawEdges();
       this.drawNodes();
     }
 
     if (prevProp.selectedNodes !== this.props.selectedNodes) {
+      console.log(this.props.selectedNodes);
       this.drawUserPath();
       this.drawSelectedNodes();
     }
 
     if (prevProp.consumedNodes !== this.props.consumedNodes) {
+      console.log(this.props.consumedNodes);
       this.drawEntityPath();
       this.drawConsumedNodes();
     }
