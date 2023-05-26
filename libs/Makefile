@@ -3,7 +3,7 @@ CXXFLAGS= -std=c++17 -g
 ROOT_DIR:= $(shell pwd)
 BOOST_DIR := /usr/include
 
-MAINEXE = app
+MAINEXE = $(BUILD_DIR)/app
 
 # ### Test Object ###
 # TEST_NAME = entity_unittest

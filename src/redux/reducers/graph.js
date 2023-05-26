@@ -2,9 +2,14 @@ import { UPDATE_GRAPH } from "../actionTypes";
 
 const initState = { 
   graph: {
+    level: 1,
+    isdone: false,
     nodes: [],
-    neighbors: [],
-    paths: [],
+    edges: [],
+    selectedNodes: [], 
+    userPath: [],
+    consumedNodes: [], 
+    entityPath: [],
   }
 };
 
@@ -12,7 +17,7 @@ export default function(state = initState, action) {
   switch (action.type) {
     case UPDATE_GRAPH: {
       return { 
-        api: action.payload.api,
+        graph: action.payload.graph,
       };
     }
     default: {

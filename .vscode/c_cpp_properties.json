@@ -3,7 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/build/libs/include/**",
+                "${workspaceFolder}/libs/include/**",
                 "C:/src/vcpkg/installed/x86-windows/include/**"
             ],
             "defines": [

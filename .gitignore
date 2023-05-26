@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+/build
+/libs/bin
 /.pnp
 .pnp.js
 

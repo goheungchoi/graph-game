@@ -6,8 +6,6 @@ import Content from './Content.js'
 
 import {drawCircle, drawLine} from './canvas_util.js'
 
-import style from '../style/Graph.module.css'
-
 const NUM_LAYERS = 5
 const NUM_NODES_PER_LAYER = [1, 6, 12, 12, 6];
 const RADIUS_INCREMENT = 100;
@@ -25,6 +23,7 @@ class Graph extends React.Component {
     this.edgemap = [];
 
     this.initMaps();
+    this.initGraph = this.initGraph.bind(this);
   }
 
   initMaps() {
@@ -206,11 +205,12 @@ class Graph extends React.Component {
     false);
   }
 
-  componentDidMount() {
-    console.log(this.canvRef.current);
+  initGraph() {
     if (this.canvRef.current) {
-      const ctx = this.canvRef.current.getContext("2d");
-      ctx?.strokeRect(200, 200, 40, 50);
+      const w = this.canvRef.current.width;
+      const h = this.canvRef.current.height;
+      const ctx = this.canvRef.current.getContext('2d');
+      ctx.clearRect(0, 0, w, h);
       this.drawEdgeMap();
       this.drawNodeMap();
       this.addClickEventListenerOnCanvas();
@@ -218,7 +218,16 @@ class Graph extends React.Component {
     }
   }
 
+  componentDidMount() {
+    console.log(this.canvRef.current);
+    this.initGraph();
+  }
+
   componentDidUpdate(prevProp) {
+
+    if (prevProp.level !== this.props.level) {
+      this.initGraph();
+    }
 
     if (prevProp.nodes !== this.props.nodes) {
       console.log(this.props.nodes);

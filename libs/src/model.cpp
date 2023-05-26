@@ -2,6 +2,8 @@
 
 /// Creates a game
 void GameModel::CreateGame(int level) {
+  if (game != nullptr)
+    delete game;
   game = new Game(level);
 }
 
