@@ -1,3 +1,4 @@
+// game.hpp
 #ifndef _GAME_HPP_
 #define _GAME_HPP_
 
@@ -36,16 +37,37 @@ public:
     std::vector<Edge> edges);
 
   ~Game();
-
+/**
+ * @brief Get the Game State object
+ * 
+ * @return state_t* 
+ */
   state_t* getGameState();
-
+/**
+ * @brief Get the Entity Action object
+ * 
+ * @return entity_action_t* 
+ */
   entity_action_t* getEntityAction();
-
-
+/**
+ * @brief 
+ * 
+ * @param layer 
+ * @param index 
+ * @return int 
+ */
   int play_turn(int layer, int index);
-
+/**
+ * @brief 
+ * 
+ * @return true 
+ * @return false 
+ */
   bool is_done();
-
+/**
+ * @brief 
+ * 
+ */
   void print() {
     graph.printNodeMap();
   }
@@ -57,7 +79,6 @@ private:
   Graph graph;
   Player player;
   Entity entity;
-
   
   int level = 0;
   int num_turn;

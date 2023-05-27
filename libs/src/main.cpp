@@ -1,3 +1,4 @@
+// main.cpp
 #include <boost/beast/core.hpp>
 #include <boost/beast/websocket.hpp>
 #include <boost/asio/ip/tcp.hpp>
@@ -118,11 +119,14 @@ int main(int argc, char** argv) {
 
     tcp::acceptor acceptor{ioc, {host, port}};
     while(1) {
+      // Make a shared pointer for manage the transfer of ownership
       std::shared_ptr<tcp::socket> socket 
         = std::make_shared<tcp::socket>(ioc);
       acceptor.accept(*socket);
+      // Create Model and Controller
       GameModel* model = new GameModel();
       Controller* cont = new Controller(model);
+      // Launch a thread of the connection
       std::thread([socket, &cont]() {
         do_session(std::move(*socket), cont);
       }).detach();

@@ -1,3 +1,4 @@
+// graph.hpp
 #ifndef _GRAPH_
 #define _GRAPH_
 
@@ -85,7 +86,6 @@ public:
   Node* searchNode(int layer, int index);
 
   NodeMap* getNodeMap() {
-    std::cout << "Graph::getNodeMap: " << nodes << std::endl;
     return nodes;
   }
 

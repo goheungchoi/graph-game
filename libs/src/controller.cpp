@@ -1,3 +1,4 @@
+// controller.cpp
 #include "controller.hpp"
 
 void Controller::ReceiveCommand(
@@ -5,7 +6,7 @@ void Controller::ReceiveCommand(
   object& data, 
   object& returnValue
 ) {
-  
+    /// CREATE GAME
     if (cmd == "CreateGame") {
       unsigned int level;
       obj::extract(data, "level", level);
@@ -15,13 +16,13 @@ void Controller::ReceiveCommand(
       }};
     }
 
+    /// GET PLAYER MOVE
     else if (cmd == "GetPlayerMove") {
       // User choose a node
       int layer, index;
       obj::extract(data, "layer", layer);
       obj::extract(data, "index", index);
       int res = model->GetPlayerMove(layer, index);
-
       returnValue = {{
         "event", "PostEntityMove"
       }};
@@ -35,7 +36,7 @@ void Controller::SendMsgToView(
   const string& event,
   object& msg
 ) {
-  /* POST Game State */
+  /// POST GAME STATE
   if (event == "PostGameState") {
     object details;
     /// Make nodeMap JSON
@@ -74,7 +75,7 @@ void Controller::SendMsgToView(
     msg["details"] = std::move(details);
   }
   
-  /* POST Entity Move */
+  /// POST ENTITY MOVE
   else if (event == "PostEntityMove") {
     model->printNodes();
     object details;

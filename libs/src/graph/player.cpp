@@ -2,15 +2,14 @@
 #include "player.hpp"
 
 Player::~Player() {
-    for (Edge* e : playerPath) {
-      delete e;
-    }
+  for (Edge* e : playerPath) {
+    delete e;
   }
+}
 
 int Player::getNumOfSelectedNodes() {
   return selectedNodes.size();
 }
-
 
 int Player::action(Graph &g, int layer, int index) {
   // find the node

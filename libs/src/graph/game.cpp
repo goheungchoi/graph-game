@@ -1,3 +1,4 @@
+// game.cpp
 #include "game.hpp"
 
 Game::Game(int level_) : 
@@ -14,8 +15,8 @@ level(level_) {
 }
 
 Game::Game(int level_, 
-  std::vector<Node> nodes, 
-  std::vector<Edge> edges) : 
+std::vector<Node> nodes, 
+std::vector<Edge> edges) : 
 level(level_) {
   if (level_ > 0) {
     state = _IN_PROGRESS;
@@ -28,9 +29,7 @@ level(level_) {
   }
 }
 
-Game::~Game() {
-
-}
+Game::~Game() {}
 
 state_t* Game::getGameState() {
   return gameState;

@@ -1,3 +1,4 @@
+// entity.cpp
 #include "entity.hpp"
 
 Entity::Entity() {}
@@ -49,25 +50,9 @@ Node* Entity::getNextStartingNode(Graph &g) {
 }
 
 void Entity::generateEntity(Graph &g, Node* n) {
-  // 0 -> [11  0  1]
-  // 1 -> [ 1  2  3]
-  // 2 -> [ 3  4  5]  = A
-  // 3 -> [ 5  6  7]
-  // 4 -> [ 7  8  9]
-  // 5 -> [ 9 10 11]
-  // ---------------------------
-  //     [-11 -11 -11]
-  // A + [-11 -11 -11] = A`
-  //     [    ...    ]
-  //     [-11 -11 -11]
-  // ---------------------------
-  // transpose(A`).scale(-1) = A``
-  // ---------------------------
-  // basis(A``.scale(1/3)) = ans_vector
-  // ---------------------------
-  int index = n->pos[1];
-  
-  int newi = ((index+1)%12)/2;
+  int index = n->pos[1];      //!< index of the node
+  int newi = ((index+1)%12)/2;//!< index of the 4th layer node 
+                              //   that will be connected to the node
 
   g.addNode(Content(), 4, newi);
   origin = g.searchNode(4, newi);
@@ -279,26 +264,24 @@ void Entity::consumeNode(Node* node) {
   else {  // if curr is a new starting point, 
   // find a adjacent consumed node and connect these two
     Node* outer = nullptr;
-    if (node->getNeighbors().size() != 0) {  // if there is any neighbor
-      for (Node* neigh : node->getNeighbors()) {  // find the outer node
-        if (neigh->color == _BLACK) {  // if neigh is a consumed node
-          if (outer == nullptr) { // at first, outer = neigh
-            outer = neigh;
-          } else {  // compare outer and neigh
-            // find the one on a higher layer.
-            if (neigh->pos[0] > outer->pos[0])
-              outer = neigh;
-          }
-        }
+    for (Node* neigh : node->getNeighbors()) {
+      if (neigh->color == _BLACK) {  // if neigh is a consumed node
+        outer = neigh;
+        break;
       }
-      if (outer != nullptr) { // if outer is found, add an edge
-        Edge* e = new Edge(node->pos, outer->pos);
-        // Record the new path
-        newEntityPath.push_back(e);
-        // Store it in the entity path
-        entityPath.push_back(e);
-      }
-    } 
+    }
+
+    if (outer != nullptr) { // if outer is found, add an edge
+      Edge* e = new Edge(node->pos, outer->pos);
+      // Record the new path
+      newEntityPath.push_back(e);
+      // Store it in the entity path
+      entityPath.push_back(e);
+    } else {
+      std::invalid_argument(
+        "Entity::consumeNode: The consumed node adjacent to the starting node is not found"
+      );
+    }
   }
   // Consume the node
   consumedNodes.push_back(node);

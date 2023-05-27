@@ -1,3 +1,4 @@
+// content.hpp
 #ifndef _CONTENT_
 #define _CONTENT_
 
@@ -16,19 +17,41 @@
 #define _VERY_RARE 6000  // tier 3 perk
 #define _ULTRA_RARE 7000
 
+/**
+ * @brief Content class shows more
+ * detailed information about a node.
+ * 
+ */
 class Content {
 public:
-  int type;
-  int rarity;
+  int type;   //!< Represents type of node
+  int rarity; //!< Represents rarity of node
 
-  Content();  // Default constructor
-
-  Content(const Content& other);  // Copy constructor
-
+/**
+ * @brief Default constructor
+ * 
+ */
+  Content();
+/**
+ * @brief Copy constructor
+ * 
+ * @param other other Content object to be copied
+ */
+  Content(const Content& other);  
+/**
+ * @brief Construct a new Content object
+ * 
+ * @param type type of the node
+ * @param rarity rarity of the node
+ */
   Content(const int type, const int rarity);
-
-  Content& operator=(const Content& other); // Copy operator
-
+/**
+ * @brief Copy operator
+ * 
+ * @param other other Content object to be copied
+ * @return Content& - Updated *this
+ */
+  Content& operator=(const Content& other);
 };
 
 #endif

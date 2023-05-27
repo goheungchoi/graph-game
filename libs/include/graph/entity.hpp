@@ -1,3 +1,4 @@
+// entity.hpp
 #ifndef _ENTITY_
 #define _ENTITY_
 
@@ -6,15 +7,22 @@
 #include <time.h>       /* time */
 #include "graph.hpp"
 
+/**
+ * @brief 
+ * 
+ */
 class Entity {
 public:
   Entity();
   ~Entity();
-
+  /**
+   * @brief Get the number Of consumed nodes
+   * 
+   * @return int - the number of consumed nodes
+   */
   int getNumOfConsumedNodes() {
     return consumedNodes.size();
   }
-
   /**
    * @brief Describes how Entity behaves after the user's move
    * 
@@ -104,6 +112,7 @@ public:
 private:
   Node* origin = nullptr;
   Node* curr = nullptr;
+
   std::vector<Node*> consumedNodes;
   std::vector<Edge*> entityPath;
 

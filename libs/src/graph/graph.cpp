@@ -11,6 +11,7 @@ Graph::Graph() {
 Graph::Graph(std::vector<Node> _nodes, std::vector<Edge> _edges) {
   nodes = new NodeMap();
   edges = new EdgeMap();
+  /// move nodes
   for (Node& n : _nodes) {
     Node* newNode = new Node(n);
     int layer = n.getLayer();
@@ -22,7 +23,7 @@ Graph::Graph(std::vector<Node> _nodes, std::vector<Edge> _edges) {
     std::pair<std::vector<int>, Node*> p(n.pos, newNode);
     nodes->insert(p);
   }
-
+  /// move edges
   for (Edge& e : _edges) {
     Edge* newEdge = new Edge(e);
     edges->insert(newEdge);
@@ -36,22 +37,23 @@ Graph::Graph(std::vector<Node> _nodes, std::vector<Edge> _edges) {
 }
 
 Graph::~Graph() {
+  /// delete nodes
   for (auto it = nodes->begin(); it != nodes->end(); it++) {
     delete it->second;
   }
-
+  /// delete edges
   for (auto it = edges->begin(); it != edges->end(); it++) {
     delete *it;
   }
 }
-/*** GETTERS ***/
+
 std::vector<Node*> Graph::getUnvisitedNodesOnLayer(int layer) {
   /* validation layer */
   if (layer < 0 || layer / 5 > 0)
     throw std::invalid_argument("Graph.hpp: layer is out of range");
 
+  /// Search unvisited nodes
   std::vector<Node*> unvisitedNodesOnLayer;
-  
   for (int i = 0; i < LAYER_NUM_NODES[layer]; i++) {
     Node* n = searchNode(layer, i);
     if (n != nullptr && (n->color == _WHITE || n->color == _YELLOW))
@@ -63,17 +65,7 @@ std::vector<Node*> Graph::getUnvisitedNodesOnLayer(int layer) {
 int Graph::getNumOfNodes() const {
   return nodes->size();
 }
-/***************/
-// tasks to be done prior to user selection
-// 1. add nodes
-// 2. add edges
-/**
- * @brief Add a node to the graph.
- * 
- * @param cont 
- * @param layer 
- * @param index 
- */
+
 int Graph::addNode(const Content& cont, int layer, int index) {
   /* varification layer */
   if (searchNode(layer, index) != nullptr) 
@@ -99,12 +91,7 @@ int Graph::addNode(const Content& cont, int layer, int index) {
 
   return _SUCCESS;
 }
-/**
- * @brief Add an edge to the graph.
- * 
- * @param x 2D position array
- * @param y 2D position array
- */
+
 int Graph::addEdge(const std::vector<int> x, const std::vector<int> y) {
   // Prevent cycle on a graph
   if (x == y) return _FAIL;
@@ -119,8 +106,6 @@ int Graph::addEdge(const std::vector<int> x, const std::vector<int> y) {
   Node* a = a_it->second;
   Node* b = b_it->second;
 
-  // Node* a = nodes.at(x);
-  // Node* b = nodes.at(y);
   std::cout << "found nodes" << std::endl;
   std::cout << "x: (" << x[0] << ", " << x[1] << ") "  "y: (" << y[0] << ", " << y[1] << ") " << std::endl;
   a->addNeighbor(b);
@@ -129,14 +114,6 @@ int Graph::addEdge(const std::vector<int> x, const std::vector<int> y) {
   return _SUCCESS;
 }
 
-/**
- * @brief Search for a node at a certain position.
- * 
- * @param layer 
- * @param index 
- * @return Node* if found, returns Node* at the position. Otherwise, 
- * returns nullptr.
- */
 Node* Graph::searchNode(int layer, int index) {
   std::vector<int> pos{layer, index};
 
@@ -145,10 +122,6 @@ Node* Graph::searchNode(int layer, int index) {
   else return it->second;
 }
 
-/**
- * @brief Initializes the web
- * 
- */
 void Graph::init_web() {
   // select the origin as the first node
   addNode(Content(), 0, 0);
