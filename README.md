@@ -1,6 +1,6 @@
 # Graph Game Web 
 
-**Creator**: Goheung Choi
+**Author**: Goheung Choi
 
 **Version**: *`0.8.0`*
 
