@@ -78,7 +78,7 @@ Further details about key algorithms and the program structure are still under d
 ### MVC Structure of Program
 `TODO: fill this section`
 
-## Future Development Roadout
+## Future Development Roadmap
 
 The following enhancements are planned for future updates
 
