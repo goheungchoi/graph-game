@@ -6,7 +6,7 @@
 
 **Last Update**: *05/26/23*
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Overview
 
